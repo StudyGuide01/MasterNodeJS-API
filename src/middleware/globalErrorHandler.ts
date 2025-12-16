@@ -6,7 +6,6 @@ import express, {
 } from "express";
 import { config } from "../config/config.js";
 
-
 const globlaErrorHandler = (
 	err: HttpError,
 	req: Request,
@@ -19,6 +18,5 @@ const globlaErrorHandler = (
 		errorStack: config.env === "development" ? err.stack : "", // used only development mode
 	});
 };
-
 
 export default globlaErrorHandler;
