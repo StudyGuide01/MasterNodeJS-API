@@ -28,26 +28,25 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
 			next(errors);
 		}
 	} catch (error) {
-		return next(createHttpError(500, 'Error while getting user'));
+		return next(createHttpError(500, "Error while getting user"));
 	}
 
 	const hasedPaswword = await bcrypt.hash(password, 10);
 
-	let newUser: User
+	let newUser: User;
 	try {
 		newUser = await UserModel.create({
 			name,
 			email,
 			password: hasedPaswword,
 		});
-
 	} catch (error) {
-		return next(createHttpError(500, 'Error while creating user'))
+		return next(createHttpError(500, "Error while creating user"));
 	}
 	//token genration
 	const token = jwt.sign({ sub: newUser._id }, config.jwtSecret as string, {
 		expiresIn: "1d",
-		algorithm: "HS256"
+		algorithm: "HS256",
 	});
 
 	res
@@ -55,4 +54,34 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
 		.json({ messae: "user created successfully", accessToken: token });
 };
 
-export { createUser };
+
+const login = async (req: Request, res: Response, next: NextFunction) => {
+	const { email, password } = req.body;
+	if (!email || !password) {
+		return next(createHttpError(400, 'All feilds are required'));
+	}
+	let user;
+	try {
+		user = await UserModel.findOne({ email });
+		if (!user) {
+			return next(createHttpError(404, 'User not found'));
+		}
+
+	} catch (error) {
+		return next(createHttpError(400, 'While fetching error to login'));
+	}
+
+
+
+	const isMatch = await bcrypt.compare(password, user.password);
+
+	if (!isMatch) {
+		return next(createHttpError(400, 'Password is invalid'));
+	}
+	const token = jwt.sign({ sub: user._id }, config.jwtSecret as string, { expiresIn: '1d' });
+
+	return res.status(200).json({ message: 'User logedin', accessToken: token });
+
+}
+
+export { createUser, login };
