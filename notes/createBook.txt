@@ -1,0 +1,78 @@
+src/
+├── modules/
+│   ├── book/
+│   │   ├── book.routes.ts
+│   │   ├── book.controller.ts
+│   │   ├── book.service.ts
+│   │   ├── book.model.ts
+│   │   ├── book.validation.ts
+│   │   └── book.types.ts
+├── config/
+│   ├── cloudinary.config.ts
+│   └── multer.config.ts
+├── middlewares/
+│   ├── errorHandler.ts
+│   └── validation.middleware.ts
+├── utils/
+│   ├── asyncHandler.ts
+│   ├── ApiError.ts
+│   ├── ApiResponse.ts
+│   ├── fileHelper.ts
+│   └── logger.ts
+└── constants/
+    └── index.ts
+
+
+
+ Key Improvements:
+✅ Architecture
+Layered Architecture: Controller → Service → Model
+Separation of Concerns: Business logic alag, routes alag
+Single Responsibility: Har function ek hi kaam karta hai
+✅ Error Handling
+Centralized error handling
+Custom ApiError class
+Async error wrapper
+Proper file cleanup in finally block
+✅ Type Safety
+Proper TypeScript types
+Interfaces for all data structures
+Type guards
+✅ Validation
+Zod for schema validation
+File type validation
+Size validation
+✅ Code Quality
+No magic strings/numbers
+Constants file
+Proper naming conventions
+JSDoc comments
+DRY principle
+✅ Security
+File type validation
+File size limits
+Proper error messages (no sensitive info leak)
+✅ Performance
+Parallel uploads using Promise.all
+Efficient file cleanup
+✅ Maintainability
+Modular structure
+Easy to test
+Easy to extend
+Proper logging
+✅ Production Ready
+Environment-based configs
+Health check endpoint
+Proper HTTP status codes
+Consistent API responses
+🚀 Usage Example:
+Bash
+
+curl -X POST http://localhost:3000/api/v1/books \
+  -H "Content-Type: multipart/form-data" \
+  -F "title=The Great Gatsby" \
+  -F "genre=Fiction" \
+  -F "description=A classic novel" \
+  -F "coverImage=@./cover.jpg" \
+  -F "file=@./book.pdf"
+Yeh hai production-grade code! 🎯

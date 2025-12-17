@@ -8,7 +8,7 @@ const bookSchema = new mongoose.Schema<Book>({
 	},
 	author: {
 		type: mongoose.Schema.Types.ObjectId,
-		rel: "User",
+		ref: "User",
 		required: true,
 	},
 	genre: {
