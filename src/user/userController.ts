@@ -45,7 +45,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
 	}
 	//token genration
 	const token = jwt.sign({ sub: newUser._id }, config.jwtSecret as string, {
-		expiresIn: "1d",
+		expiresIn: "7d",
 		algorithm: "HS256",
 	});
 
@@ -78,7 +78,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 	if (!isMatch) {
 		return next(createHttpError(400, 'Password is invalid'));
 	}
-	const token = jwt.sign({ sub: user._id }, config.jwtSecret as string, { expiresIn: '1d' });
+	const token = jwt.sign({ sub: user._id }, config.jwtSecret as string, { expiresIn: '7d' });
 
 	return res.status(200).json({ message: 'User logedin', accessToken: token });
 

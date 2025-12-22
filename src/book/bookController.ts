@@ -13,6 +13,8 @@ const __dirname = path.dirname(__filename);
 const creatBook = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { title, genre } = req.body;
+		//@ts-ignore
+		const userId = req.userId;
 
 		const files = req.files as {
 			[fieldname: string]: Express.Multer.File[];
