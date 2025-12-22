@@ -6,6 +6,7 @@ import createHttpError from "http-errors";
 import path from "node:path";
 import url from "node:url";
 import fs from "node:fs";
+import type { AuthRequest } from "../middleware/authenticate.js";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,8 +14,9 @@ const __dirname = path.dirname(__filename);
 const creatBook = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { title, genre } = req.body;
-		//@ts-ignore
-		const userId = req.userId;
+
+		const _req = req as AuthRequest;
+		const userId = _req.userId;
 
 		const files = req.files as {
 			[fieldname: string]: Express.Multer.File[];
@@ -80,7 +82,7 @@ const creatBook = async (req: Request, res: Response, next: NextFunction) => {
 		const newBook = await BookModel.create({
 			title,
 			genre,
-			author: "694130b5db057ca405fe5931",
+			author: userId,
 			coverImage: coverUploadResult.secure_url,
 			file: bookUploadResult.secure_url,
 		});
