@@ -4,7 +4,7 @@ import multer from "multer";
 import path from 'node:path';
 import url from 'node:url';
 
-import { creatBook } from "./bookController.js";
+import { creatBook, updateBook } from "./bookController.js";
 import authenticat from "../middleware/authenticate.js";
 
 const rootPath = url.fileURLToPath(import.meta.url);
@@ -21,6 +21,18 @@ const upload = multer({
 bookRouter.post('/create-book', authenticat, upload.fields([
 	{ name: 'coverImage', maxCount: 1 },
 	{ name: 'file', maxCount: 1 }
-]), creatBook)
+]), creatBook);
+
+// bookRouter.patch('/update-book/:bookId', authenticat, updateBook);
+bookRouter.patch(
+	"/update-book/:bookId",
+	authenticat,
+	upload.fields([
+		{ name: "coverImage", maxCount: 1 },
+		{ name: "file", maxCount: 1 },
+	]),
+	updateBook
+);
+
 
 export default bookRouter;
