@@ -212,10 +212,22 @@ const updateBook = async (req: Request, res: Response, next: NextFunction) => {
 	}
 };
 
+//get book endpoints
+//mongoose pagination to get all books in steps
+
+const getAllBooks = async (req: Request, res: Response, next: NextFunction) => {
+	try {
+		const book = await BookModel.find();
+		return res.json({ book });
+	} catch (error) {
+		return next(createHttpError(500, 'Error while getting book'));
+	}
+
+}
 
 
 
 
-export { creatBook, updateBook };
+export { creatBook, updateBook, getAllBooks };
 
 

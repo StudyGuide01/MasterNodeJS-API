@@ -4,7 +4,7 @@ import multer from "multer";
 import path from 'node:path';
 import url from 'node:url';
 
-import { creatBook, updateBook } from "./bookController.js";
+import { creatBook, getAllBooks, updateBook } from "./bookController.js";
 import authenticat from "../middleware/authenticate.js";
 
 const rootPath = url.fileURLToPath(import.meta.url);
@@ -33,6 +33,8 @@ bookRouter.patch(
 	]),
 	updateBook
 );
+
+bookRouter.get('/get-allBook', getAllBooks)
 
 
 export default bookRouter;
