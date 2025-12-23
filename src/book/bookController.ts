@@ -225,9 +225,35 @@ const getAllBooks = async (req: Request, res: Response, next: NextFunction) => {
 
 }
 
+//get single book
+
+const getSingleBook = async (req: Request, res: Response, next: NextFunction) => {
+	const bookId = req.params.bookId;
+
+	try {
+		if (!bookId) {
+			return next(createHttpError(404, 'Book id is required'));
+		}
+		const book = await BookModel.findOne({ _id: bookId });
+		if (!book) {
+			return next(createHttpError(404, 'Book is not defined'));
+		}
+
+		return res.json({ book });
 
 
 
-export { creatBook, updateBook, getAllBooks };
+
+	} catch (error) {
+		return next(createHttpError(500, 'Error while getting single book'));
+	}
+
+
+}
+
+
+
+
+export { creatBook, updateBook, getAllBooks, getSingleBook };
 
 
